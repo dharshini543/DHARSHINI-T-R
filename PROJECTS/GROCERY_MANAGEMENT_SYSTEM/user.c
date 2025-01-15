@@ -139,14 +139,15 @@ void saveUsersToFile(Userlist *userlist)
 void loadUsersFromFile(Userlist *userlist)
 {
     FILE *file = fopen("users.txt", "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         perror("Error opening file");
         return;
     }
 
     userlist->userCount = 0;
 
-    while (fscanf(file, " %29s %29s %d %d",
+    while (fscanf(file, " %29s %29s  %d",
                   userlist->users[userlist->userCount].username,
                   userlist->users[userlist->userCount].password,
                   (int *)&userlist->users[userlist->userCount].role) == 3)

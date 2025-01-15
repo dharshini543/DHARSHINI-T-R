@@ -5,19 +5,22 @@
 #define MAX_PASSWORD_LENGTH 30
 #define MAX_USERS 100
 
-typedef enum {
+typedef enum
+{
     ROLE_USER,
     ROLE_ADMIN,
 } UserRole;
 
-typedef struct User {
+typedef struct User
+{
     char username[MAX_USERNAME_LENGTH];
     char password[MAX_PASSWORD_LENGTH];
     int isLoggedIn;
     UserRole role;
 } User;
 
-typedef struct Userlist {
+typedef struct Userlist
+{
     User users[MAX_USERS];
     int userCount;
 } Userlist;

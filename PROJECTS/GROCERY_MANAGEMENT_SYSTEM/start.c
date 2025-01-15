@@ -12,15 +12,12 @@
 int start()
 {
     Userlist userlist = {0};
-    userlist.userCount = 0;
     Inventory inventory = {0};
     Cart cart = {0};
     Report report = {0};
     float totalsales = 0;
-    int isRunning = 1;
     int choice = 0;
     int option = 0;
-    int isOpened = 0;
     int ID = 0;
     float quantity = 0;
     int success = 0;
@@ -261,7 +258,6 @@ int start()
                     currentUser->isLoggedIn = 0;
                     currentUser = NULL;
                     printf("Admin Logging out....\n\n\n");
-                    isRunning = 0;
                     break;
 
                 default:
@@ -385,7 +381,6 @@ int start()
                     currentUser->isLoggedIn = 0;
                     currentUser = NULL;
                     printf("User Logging out....\n\n\n");
-                    isRunning = 0;
                     break;
 
                 default:
