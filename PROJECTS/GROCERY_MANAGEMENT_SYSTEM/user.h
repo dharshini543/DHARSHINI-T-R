@@ -8,7 +8,7 @@
 typedef enum
 {
     ROLE_USER,
-    ROLE_ADMIN,
+    ROLE_ADMIN
 } UserRole;
 
 typedef struct User

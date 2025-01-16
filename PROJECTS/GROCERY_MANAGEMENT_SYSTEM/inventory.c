@@ -150,31 +150,31 @@ int updateItemDetails(Inventory *inventory, int itemID)
         printf("Item Brand: ");
         scanf(" %[^\n]", newBrand);
         strcpy(temp->brand,newBrand);
-        updateInventoryItemField(inventory, itemID, Brand, newBrand, temp); // Pass newBrand
+        updateInventoryItemField(inventory, itemID, Brand, newBrand, temp);
         break;
     case Department:
         printf("Item Department: ");
         scanf(" %[^\n]", newDepartment);
         strcpy(temp->department,newDepartment);
-        updateInventoryItemField(inventory, itemID, Department, newDepartment, temp); // Pass newDepartment
+        updateInventoryItemField(inventory, itemID, Department, newDepartment, temp);
         break;
     case ExpiryDate:
         printf("Item Expiry Date: ");
         scanf(" %[^\n]", newExpiryDate);
         strcpy(temp->expiryDate,newExpiryDate);
-        updateInventoryItemField(inventory, itemID, ExpiryDate, newExpiryDate, temp); // Pass newExpiryDate
+        updateInventoryItemField(inventory, itemID, ExpiryDate, newExpiryDate, temp);
         break;
     case Price:
         printf("Item Price: ");
         scanf("%f", &newPrice);
         temp->price = newPrice;
-        updateInventoryItemField(inventory, itemID, Price, &newPrice, temp); // Pass address of newPrice
+        updateInventoryItemField(inventory, itemID, Price, &newPrice, temp);
         break;
     case Quantity:
         printf("Item Quantity: ");
         scanf("%f", &newQuantity);
         temp->quantity = newQuantity;
-        updateInventoryItemField(inventory, itemID, Quantity, &newQuantity, temp); // Pass address of newQuantity
+        updateInventoryItemField(inventory, itemID, Quantity, &newQuantity, temp);
         break;
 
     default:

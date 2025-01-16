@@ -7,6 +7,8 @@ enum ADMIN_MENU
     ADMIN_ADD_USER = 1,
     ADMIN_DELETE_USER,
     ADMIN_INVENTORY_MANAGEMENT,
+    ADMIN_CART_MANAGEMENT,
+    ADMIN_BILLING,
     ADMIN_REPORTS,
     ADMIN_LOGOUT
 };
@@ -30,7 +32,8 @@ enum InventoryMenuOptions
     Inventory_SortByPrice,
     Inventory_SortByItemID,
     Inventory_GetItemByID,
-    Inventory_DisplayDeletedItems
+    Inventory_DisplayDeletedItems,
+    Inventory_Exit
 };
 
 enum mergeSort
@@ -58,13 +61,15 @@ enum CartMenuOptions
     Cart_AddItem = 1,
     Cart_DeleteItem,
     Cart_UpdateQuantity,
-    Cart_DisplaySummary
+    Cart_DisplaySummary,
+    Cart_Exit
 };
 
 enum BillingMenuOptions
 {
     Calculate_FinalBill = 1,
-    Billing_GenerateReceipt
+    Billing_GenerateReceipt,
+    Billing_Exit
 };
 
 enum ReportMenuOptions
@@ -72,7 +77,7 @@ enum ReportMenuOptions
     Generate_SalesReport = 1,
     Generate_InventoryReport,
     ViewLOWStockAlerts,
-    Report_SaveToFile
+    Report_Exit
 };
 
 enum returnValue
