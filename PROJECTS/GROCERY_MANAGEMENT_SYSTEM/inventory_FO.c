@@ -23,12 +23,18 @@ void openInventoryFile()
         inventoryFile = fopen("GroceryInventoryFile.txt", "w+");
         if (!inventoryFile)
         {
-            return;
+            printf("Unable to open the Inventory file\n");
+        }
+        else
+        {
+            printf("Inventory File opened successfully\n");
         }
     }
-    return;
+    else
+    {
+        printf("Inventory File opened successfully\n");
+    }
 }
-
 
 void closeInventoryFile()
 {
@@ -37,7 +43,12 @@ void closeInventoryFile()
         fflush(inventoryFile);
         fclose(inventoryFile);
     }
+    else
+    {
+        printf("File pointer is NULL, nothing to close\n");
+    }
 }
+
 
 
 void padOrTrimString(char *dest, const char *src, size_t length)
@@ -101,7 +112,8 @@ void loadInventoryFromFile(Inventory *inventory)
         {
             continue;
         }
-
+        else
+        {
         InventoryItem *newItem = (InventoryItem *)malloc(sizeof(InventoryItem));
         if (newItem == NULL)
         {
@@ -133,7 +145,7 @@ void loadInventoryFromFile(Inventory *inventory)
         }
 
         inventory->itemCount++;
-        inventory->head = mergeSort(inventory->head, Sort_By_Name);
+    }
     }
 
     if (inventory->itemCount > 0)
@@ -232,8 +244,10 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
             fflush(inventoryFile);
             return;
         }
-
+        else
+        {
         currentPos = ftell(inventoryFile);
+        }
     }
 }
 

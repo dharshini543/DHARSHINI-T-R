@@ -32,6 +32,8 @@ void addSalesReportItem(Cart *cart, Inventory *inventory, Report *report)
                     printf("Memory allocation failed.\n");
                     return;
                 }
+                else
+                {
                 newitem->itemID = Item->itemID;
                 newitem->quantity = current->quantity;
                 newitem->next = 0;
@@ -48,6 +50,7 @@ void addSalesReportItem(Cart *cart, Inventory *inventory, Report *report)
                     }
                     temp1->next = newitem;
                     temp1 = newitem;
+                }
                 }
 
             }
@@ -130,19 +133,30 @@ void generateSalesReport(Cart *cart, Inventory *inventory, Report *report, int i
 
 void generateInventoryReport(const Inventory *inventory)
 {
-    InventoryItem*temp = inventory->head;
     if(inventory->head == 0)
     {
         printf("Inventory is empty\n");
     }
     else
     {
-        printf("--------------------------Inventory Report----------------------------------------\n");
-        printf("ID\tName\t\tBrand\t\tPrice\t\tQuantity\tDepartment\tExpiryDate\n");
-        printf("-----------------------------------------------------------------------------------\n");
+        InventoryItem* temp = inventory->head;
+        printf("----------------------------------------Inventory Report----------------------------------------------------------:\n");
+        printf("------------------------------------------------------------------------------------------------------------------\n");
+        printf("ID\tName\t\t\tBrand\t\t\tDepartment\t\tExpiry Date\tPrice\tQuantity\n");
+        printf("------------------------------------------------------------------------------------------------------------------\n");
         while(temp != 0)
         {
-            printf("%d\t%s\t\t%s\t\t%.2f\t\t%.2f\t\t%s\t\t%s\n", temp->itemID, temp->name, temp->brand, temp->price, temp->quantity, temp->department, temp->expiryDate);
+            if(temp->itemID > 0)
+            {
+                printf("%d\t%-20s\t%-20s\t%-20s\t%-15s\t%.2f\t%.2f\n",
+                       temp->itemID,
+                       temp->name,
+                       temp->brand,
+                       temp->department,
+                       temp->expiryDate,
+                       temp->price,
+                       temp->quantity);
+            }
             temp = temp->next;
         }
     }
@@ -156,7 +170,7 @@ void viewLowStockAlerts(const Inventory *inventory)
 
     while(temp != 0)
     {
-        if(temp->quantity < 5)
+        if(temp->quantity < 5 && temp->itemID > 0)
         {
             if(isFirstLowStock)
             {

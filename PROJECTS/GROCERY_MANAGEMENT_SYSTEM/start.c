@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include "user.h"
 #include "inventory.h"
@@ -68,11 +69,12 @@ int start()
                 printf("Admin Menu:\n");
                 printf("1. Add User\n");
                 printf("2. Delete User\n");
-                printf("3. Manage Inventory\n");
-                printf("4. Manage Cart\n");
-                printf("5. Billing\n");
-                printf("6. View Reports\n");
-                printf("7. Logout\n");
+                printf("3.Display Users\n");
+                printf("4. Manage Inventory\n");
+                printf("5. Manage Cart\n");
+                printf("6. Billing\n");
+                printf("7. View Reports\n");
+                printf("8. Logout\n");
 
                 printf("Enter your choice: ");
                 scanf("%d", &choice);
@@ -99,6 +101,10 @@ int start()
                     char deleteUsername[MAX_USERNAME_LENGTH];
                     scanf("%s", deleteUsername);
                     deleteUser(&userlist, deleteUsername);
+                    break;
+
+                case ADMIN_DISPLAY_USERS:
+                    displayUsers(&userlist);
                     break;
 
                 case  ADMIN_INVENTORY_MANAGEMENT:

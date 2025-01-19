@@ -16,18 +16,30 @@ void openSalesReportFile()
         salesReportFile = fopen("SalesReportFile.txt", "w+");
         if (!salesReportFile)
         {
-            return;
+            printf("Unable to open the Sales Report file\n");
+        }
+        else
+        {
+            printf("Sales Report File opened successfully\n");
         }
     }
-    return;
+    else
+    {
+        printf("Sales Report File opened successfully\n");
+    }
 }
 
 
 void closeSalesReportFile()
 {
-    if (salesReportFile != NULL) {
+    if (salesReportFile != NULL)
+    {
         fflush(salesReportFile);
         fclose(salesReportFile);
+    }
+    else
+    {
+        printf("File pointer is NULL, nothing to close\n");
     }
 }
 
@@ -52,11 +64,6 @@ void deserializeSalesRecord(const char *buffer, int *itemID, char *name, float *
 
 void loadSalesReportFromFile(Report *report)
 {
-    if (!salesReportFile)
-    {
-        printf("Sales report file is not open.\n");
-        return;
-    }
 
     fseek(salesReportFile, 0, SEEK_SET);
     char buffer[RECORD_SIZE + 1];
@@ -76,7 +83,8 @@ void loadSalesReportFromFile(Report *report)
             printf("Memory allocation failed while loading sales report.\n");
             exit(1);
         }
-
+        else
+        {
         newItem->itemID = itemID;
         newItem->quantity = quantity;
         newItem->next = NULL;
@@ -93,6 +101,7 @@ void loadSalesReportFromFile(Report *report)
                 temp = temp->next;
             }
             temp->next = newItem;
+        }
         }
     }
 
@@ -129,8 +138,10 @@ void updateSalesReportInFile(Report *report, int itemID, float quantity, const c
             recordFound = 1;
             break;
         }
-
-        currentPos = ftell(salesReportFile);
+        else
+        {
+            currentPos = ftell(salesReportFile);
+        }
     }
 
     if (!recordFound)

@@ -14,47 +14,51 @@ int addItemToCart(Cart *cart, Inventory *inventory, int itemID, float quantity)
         printf("Inventory is Empty\n");
         return Failure;
     }
-
-    while(temp != NULL && temp->itemID != itemID )
-    {
-        temp = temp->next;
-    }
-    if(temp == NULL)
-    {
-        printf("Item not found in Inventory\n");
-        return Failure;
-    }
-    if(temp->quantity < quantity)
-    {
-        printf("Not enough stock available\n");
-        return Failure;
-    }
-
-    CartItem *newitem = (CartItem*)malloc(sizeof(CartItem));
-    if (!newitem)
-    {
-        printf("Memory allocation failed.\n");
-        return Failure;
-    }
-    newitem->itemID = itemID;
-    newitem->quantity = quantity;
-    newitem->next = 0;
-
-    if(cart->head == 0)
-    {
-        cart->head = newitem;
-    }
     else
     {
-        while(current->next != 0)
+        while(temp != NULL && temp->itemID != itemID )
         {
-            current = current->next;
+            temp = temp->next;
         }
-        current->next = newitem;
+        if(temp == NULL)
+        {
+            printf("Item not found in Inventory\n");
+            return Failure;
+        }
+        else if(temp->quantity < quantity)
+        {
+            printf("Not enough stock available\n");
+            return Failure;
+        }
+        else
+        {
+            CartItem *newitem = (CartItem*)malloc(sizeof(CartItem));
+            if (!newitem)
+            {
+                printf("Memory allocation failed.\n");
+                return Failure;
+            }
+            newitem->itemID = itemID;
+            newitem->quantity = quantity;
+            newitem->next = 0;
+
+            if(cart->head == 0)
+            {
+                cart->head = newitem;
+            }
+            else
+            {
+                while(current->next != 0)
+                {
+                    current = current->next;
+                }
+                current->next = newitem;
+            }
+            printf("ItemID:%d, Quantity:%.2f\n", newitem->itemID, newitem->quantity);
+            cart->totalAmount = cart->totalAmount +(temp->price * quantity);
+            return Success;
+        }
     }
-    printf("ItemID:%d, Quantity:%.2f\n", newitem->itemID, newitem->quantity);
-    cart->totalAmount = cart->totalAmount +(temp->price * quantity);
-    return Success;
 
 }
 
@@ -69,8 +73,7 @@ int removeItemFromCart(Inventory *inventory, Cart *cart, int itemID)
         printf("Cart is Empty\n");
         return Failure;
     }
-
-    if(cart->head->itemID == itemID)
+    else if(cart->head->itemID == itemID)
     {
         CartItem *temp1 = cart->head->next;
         printf("%d\t%.2f\n", cart->head->itemID, cart->head->quantity);
@@ -124,30 +127,34 @@ int updateCartItemQuantity(Inventory*inventory, Cart *cart, int itemID, float qu
         printf("No Item in Cart. Please add.\n");
         return Failure;
     }
-
-    while(current != 0 && current->itemID != itemID)
+    else
     {
-        current = current->next;
+        while(current != 0 && current->itemID != itemID)
+        {
+            current = current->next;
+        }
+        if(current == 0)
+        {
+            printf("Item not found with the given item Id.\n");
+            return Failure;
+        }
+        else
+        {
+            while(temp->itemID != current->itemID)
+            {
+                temp = temp->next;
+            }
+
+            cart->totalAmount = cart->totalAmount - current->quantity *temp->price;
+
+            current->quantity = quantity;
+
+            cart->totalAmount =cart->totalAmount + ( temp->price * current->quantity );
+            printf("Amount = %.2f\n",cart->totalAmount);
+
+            return Success;
+        }
     }
-    if(current == 0)
-    {
-        printf("Item not found with the given item Id.\n");
-        return Failure;
-    }
-
-    while(temp->itemID != current->itemID)
-    {
-        temp = temp->next;
-    }
-
-    cart->totalAmount = cart->totalAmount - current->quantity *temp->price;
-
-    current->quantity = quantity;
-
-    cart->totalAmount =cart->totalAmount + ( temp->price * current->quantity );
-    printf("Amount = %.2f\n",cart->totalAmount);
-
-    return Success;
 }
 
 void viewCartSummary(const Cart *cart)

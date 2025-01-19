@@ -13,10 +13,17 @@ void openUserFile()
         UserFile = fopen("Users.txt", "w+");
         if (!UserFile)
         {
-            return;
+            printf("Unable to open Users file\n");
+        }
+        else
+        {
+            printf("Users File opened successfully.\n");
         }
     }
-    return;
+    else
+    {
+        printf("Users File opened successfully.\n");
+    }
 }
 
 void closeUserFile()
@@ -25,17 +32,29 @@ void closeUserFile()
     {
         fflush(UserFile);
         fclose(UserFile);
+        printf("File closed successfully.\n");
+    }
+    else
+    {
+        printf("File pointer is NULL. No file to close.\n");
     }
 }
 
 void initializeUser(User *user, const char *username, const char *password, UserRole role)
 {
-    strcpy(user->username, username);
-    strcpy(user->password, password);
-    user->isLoggedIn = 0;
-    user->role = role;
+    if (user != NULL)
+    {
+        strcpy(user->username, username);
+        strcpy(user->password, password);
+        user->isLoggedIn = 0;
+        user->role = role;
+        printf("User initialized successfully.\n");
+    }
+    else
+    {
+        printf("Failed to initialize user. Null user pointer provided.\n");
+    }
 }
-
 
 User* loginUser(Userlist *userlist)
 {
@@ -47,7 +66,6 @@ User* loginUser(Userlist *userlist)
     scanf("%s", username);
     printf("\t Enter password: ");
     scanf("%s", password);
-
     for (int i = 0; i < userlist->userCount; i++)
     {
         if (strcmp(userlist->users[i].username, username) == 0 &&
@@ -56,15 +74,10 @@ User* loginUser(Userlist *userlist)
             userlist->users[i].isLoggedIn = 1;
             return &userlist->users[i];
         }
+
     }
+
     return NULL;
-}
-
-
-void logoutUser(User *user)
-{
-    user->isLoggedIn = 0;
-    printf("Logout successful.\n");
 }
 
 
@@ -82,7 +95,6 @@ int addUser(Userlist *userlist, const char *username, const char *password, User
         printf("User limit reached. Cannot add more users.\n");
         return Failure;
     }
-    printUsers(userlist);
 }
 
 
@@ -102,66 +114,69 @@ void deleteUser(Userlist *userlist, const char *username)
         }
     }
     printf("User %s not found.\n", username);
-    printUsers(userlist);
+
 }
 
-
-void printUsers(Userlist *userlist)
+void displayUsers(Userlist *userlist)
 {
-    return;
-    for (int i = 0; i < userlist->userCount; i++)
+    if (userlist->userCount > 0)
     {
-        printf("User %d %s %s\n", i+1, userlist->users[i].username, userlist->users[i].password);
+        for (int i = 0; i < userlist->userCount; i++)
+        {
+            printf("User %d: %s %s\n", i + 1, userlist->users[i].username, userlist->users[i].password);
+        }
+    }
+    else
+    {
+        printf("No users to display.\n");
     }
 }
 
 
 void saveUsersToFile(Userlist *userlist)
 {
-    FILE *file = fopen("Users.txt", "w");
-    if (file != NULL)
+    if (UserFile != NULL)
     {
         for (int i = 0; i < userlist->userCount; i++)
         {
-            fprintf(file, "%s\n", userlist->users[i].username);
-            fprintf(file, "%s\n", userlist->users[i].password);
-            fprintf(file, "%d\n", userlist->users[i].role);
+            fprintf(UserFile, "%s\n", userlist->users[i].username);
+            fprintf(UserFile, "%s\n", userlist->users[i].password);
+            fprintf(UserFile, "%d\n", userlist->users[i].role);
         }
-        fclose(file);
+        fclose(UserFile);
     }
     else
     {
         printf("Error saving users to file.\n");
     }
-    printUsers(userlist);
 }
 
 void loadUsersFromFile(Userlist *userlist)
 {
-    FILE *file = fopen("users.txt", "r");
-    if (file == NULL)
+    if (UserFile == NULL)
     {
         perror("Error opening file");
         return;
     }
-
-    userlist->userCount = 0;
-
-    while (fscanf(file, " %29s %29s  %d",
-                  userlist->users[userlist->userCount].username,
-                  userlist->users[userlist->userCount].password,
-                  (int *)&userlist->users[userlist->userCount].role) == 3)
+    else
     {
-        userlist->userCount++;
-        if (userlist->userCount >= MAX_USERS)
-        {
-            fprintf(stderr, "Maximum user limit reached, some users may not be loaded.\n");
-            break;
-        }
-    }
+        userlist->userCount = 0;
 
-    fclose(file);
-    printUsers(userlist);
+        while (fscanf(UserFile, " %29s %29s  %d",
+                      userlist->users[userlist->userCount].username,
+                      userlist->users[userlist->userCount].password,
+                      (int *)&userlist->users[userlist->userCount].role) == 3)
+        {
+            userlist->userCount++;
+            if (userlist->userCount >= MAX_USERS)
+            {
+                fprintf(stderr, "Maximum user limit reached, some users may not be loaded.\n");
+                break;
+            }
+        }
+
+        fclose(UserFile);
+    }
 }
 
 void addFirstAdminUser(Userlist *userlist)
@@ -178,5 +193,8 @@ void addFirstAdminUser(Userlist *userlist)
         userlist->userCount = 1;
         printf("Admin user created successfully!\n");
     }
+    else
+    {
+        printf("Admin user already exists. No action needed.\n");
+    }
 }
-

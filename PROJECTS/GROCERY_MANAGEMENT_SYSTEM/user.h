@@ -33,7 +33,7 @@ User* loginUser(Userlist *userlist);
 void logoutUser(User *user);
 int addUser(Userlist *userlist, const char *username, const char *password, UserRole role);
 void deleteUser(Userlist *userlist, const char *username);
-void printUsers(Userlist *userlist);
+void displayUsers(Userlist *userlist);
 void saveUsersToFile(Userlist *userlist);
 void loadUsersFromFile(Userlist *userlist);
 
