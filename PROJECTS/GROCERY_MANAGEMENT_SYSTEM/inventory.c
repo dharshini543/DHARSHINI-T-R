@@ -18,45 +18,46 @@ int addItemToInventory(Inventory *inventory)
             printf("Memory allocation failed.\n");
             return Failure;
         }
-        newitem->itemID = inventory->itemCount+1;
-        printf("Item name:");
-        scanf(" %[^\n]", newitem->name);
-        printf("Item Brand:");
-        scanf(" %[^\n]",newitem->brand);
-        printf("Item Department:");
-        scanf(" %[^\n]",newitem->department);
-        printf("Item ExpiryDate:");
-        scanf("%s",newitem->expiryDate);
-        printf("Item price:");
-        scanf("%f",&newitem->price);
-        printf("Item Quantity:");
-        scanf("%f", &newitem->quantity);
-
-        newitem->next = 0;
-
-        if(inventory->head == 0 || strcmp(newitem->name,inventory->head->name) < 0)
-        {
-            newitem->next = inventory->head;
-            inventory->head = newitem;
-        }
         else
         {
-            InventoryItem *temp = inventory->head;
+            newitem->itemID = inventory->itemCount+1;
+            printf("Item name:");
+            scanf(" %[^\n]", newitem->name);
+            printf("Item Brand:");
+            scanf(" %[^\n]",newitem->brand);
+            printf("Item Department:");
+            scanf(" %[^\n]",newitem->department);
+            printf("Item ExpiryDate:");
+            scanf("%s",newitem->expiryDate);
+            printf("Item price:");
+            scanf("%f",&newitem->price);
+            printf("Item Quantity:");
+            scanf("%f", &newitem->quantity);
 
-            while(temp->next != 0 && strcmp(temp->next->name ,newitem->name) < 0)
+            newitem->next = 0;
+
+            if(inventory->head == 0 || strcmp(newitem->name,inventory->head->name) < 0)
             {
-                temp = temp->next;
+                newitem->next = inventory->head;
+                inventory->head = newitem;
             }
-            newitem->next = temp->next;
-            temp->next = newitem;
-        }
-        inventory->itemCount++;
-        printf("Item Added\n");
-        addInventoryItemToFile(inventory, *newitem);
+            else
+            {
+                InventoryItem *temp = inventory->head;
 
+                while(temp->next != 0 && strcmp(temp->next->name ,newitem->name) < 0)
+                {
+                    temp = temp->next;
+                }
+                newitem->next = temp->next;
+                temp->next = newitem;
+            }
+            inventory->itemCount++;
+            printf("Item Added\n");
+            addInventoryItemToFile(inventory, *newitem);
+        }
         printf("Want to continue...press 1\n");
         scanf("%d",&choice);
-
     }
 
     return Success;
@@ -74,7 +75,7 @@ int deleteItemFromInventory(Inventory *inventory, int itemID)
         printf("Inventory is Empty\n");
         return Failure;
     }
-    if(inventory->head->itemID == itemID)
+    else if(inventory->head->itemID == itemID)
     {
         InventoryItem *temp = inventory->head->next;
         printf("%d\t%s\t\t%s\t\t%.2f\t\t%f\t\t%s\t\t%s\n", inventory->head->itemID, inventory->head->name, inventory->head->brand, inventory->head->price, inventory->head->quantity, inventory->head->department, inventory->head->expiryDate);

@@ -23,12 +23,18 @@ void openInventoryFile()
         inventoryFile = fopen("GroceryInventoryFile.txt", "w+");
         if (!inventoryFile)
         {
-            return;
+            printf("Unable to open the Inventory file\n");
+        }
+        else
+        {
+            printf("Inventory File opened successfully\n");
         }
     }
-    return;
+    else
+    {
+        printf("Inventory File opened successfully\n");
+    }
 }
-
 
 void closeInventoryFile()
 {
@@ -36,6 +42,10 @@ void closeInventoryFile()
     {
         fflush(inventoryFile);
         fclose(inventoryFile);
+    }
+    else
+    {
+        printf("File pointer is NULL, nothing to close\n");
     }
 }
 

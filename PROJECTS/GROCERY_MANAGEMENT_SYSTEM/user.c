@@ -13,10 +13,17 @@ void openUserFile()
         UserFile = fopen("Users.txt", "w+");
         if (!UserFile)
         {
-            return;
+            printf("Unable to open Users file\n");
+        }
+        else
+        {
+            printf("Users File opened successfully.\n");
         }
     }
-    return;
+    else
+    {
+        printf("Users File opened successfully.\n");
+    }
 }
 
 void closeUserFile()
@@ -25,6 +32,11 @@ void closeUserFile()
     {
         fflush(UserFile);
         fclose(UserFile);
+        printf("File closed successfully.\n");
+    }
+    else
+    {
+        printf("File pointer is NULL. No file to close.\n");
     }
 }
 
@@ -61,13 +73,6 @@ User* loginUser(Userlist *userlist)
 }
 
 
-void logoutUser(User *user)
-{
-    user->isLoggedIn = 0;
-    printf("Logout successful.\n");
-}
-
-
 int addUser(Userlist *userlist, const char *username, const char *password, UserRole role)
 {
     if (userlist->userCount < MAX_USERS)
@@ -82,7 +87,6 @@ int addUser(Userlist *userlist, const char *username, const char *password, User
         printf("User limit reached. Cannot add more users.\n");
         return Failure;
     }
-    printUsers(userlist);
 }
 
 
@@ -102,16 +106,20 @@ void deleteUser(Userlist *userlist, const char *username)
         }
     }
     printf("User %s not found.\n", username);
-    printUsers(userlist);
 }
 
-
-void printUsers(Userlist *userlist)
+void displayUsers(Userlist *userlist)
 {
-    return;
-    for (int i = 0; i < userlist->userCount; i++)
+    if (userlist->userCount > 0)
     {
-        printf("User %d %s %s\n", i+1, userlist->users[i].username, userlist->users[i].password);
+        for (int i = 0; i < userlist->userCount; i++)
+        {
+            printf("User %d: %s %s\n", i + 1, userlist->users[i].username, userlist->users[i].password);
+        }
+    }
+    else
+    {
+        printf("No users to display.\n");
     }
 }
 
@@ -133,7 +141,6 @@ void saveUsersToFile(Userlist *userlist)
     {
         printf("Error saving users to file.\n");
     }
-    printUsers(userlist);
 }
 
 void loadUsersFromFile(Userlist *userlist)
@@ -161,7 +168,6 @@ void loadUsersFromFile(Userlist *userlist)
     }
 
     fclose(file);
-    printUsers(userlist);
 }
 
 void addFirstAdminUser(Userlist *userlist)

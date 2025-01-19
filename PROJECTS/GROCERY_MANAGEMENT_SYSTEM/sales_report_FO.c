@@ -16,18 +16,30 @@ void openSalesReportFile()
         salesReportFile = fopen("SalesReportFile.txt", "w+");
         if (!salesReportFile)
         {
-            return;
+            printf("Unable to open the Sales Report file\n");
+        }
+        else
+        {
+            printf("Sales Report File opened successfully\n");
         }
     }
-    return;
+    else
+    {
+        printf("Sales Report File opened successfully\n");
+    }
 }
 
 
 void closeSalesReportFile()
 {
-    if (salesReportFile != NULL) {
+    if (salesReportFile != NULL)
+    {
         fflush(salesReportFile);
         fclose(salesReportFile);
+    }
+    else
+    {
+        printf("File pointer is NULL, nothing to close\n");
     }
 }
 

@@ -68,11 +68,12 @@ int start()
                 printf("Admin Menu:\n");
                 printf("1. Add User\n");
                 printf("2. Delete User\n");
-                printf("3. Manage Inventory\n");
-                printf("4. Manage Cart\n");
-                printf("5. Billing\n");
-                printf("6. View Reports\n");
-                printf("7. Logout\n");
+                printf("3. Display Users\n");
+                printf("4. Manage Inventory\n");
+                printf("5. Manage Cart\n");
+                printf("6. Billing\n");
+                printf("7. View Reports\n");
+                printf("8. Logout\n");
 
                 printf("Enter your choice: ");
                 scanf("%d", &choice);
@@ -101,195 +102,199 @@ int start()
                     deleteUser(&userlist, deleteUsername);
                     break;
 
+                case ADMIN_DISPLAY_USERS:
+                    displayUsers(&userlist);
+                    break;
+
                 case  ADMIN_INVENTORY_MANAGEMENT:
                     isTrue = 1;
                     while(isTrue)
                     {
-                    printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price\n8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n11.Exit Inventory\n");
-                    scanf("%d", &option);
+                        printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price\n8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n11.Exit Inventory\n");
+                        scanf("%d", &option);
 
-                    switch(option)
-                    {
-                    case Inventory_AddItem:
-                        success = addItemToInventory(&inventory);
-                        if(success)
+                        switch(option)
                         {
-                            printf("Items Added succesfully to the Inventory\n");
-                        }
-                        else
-                        {
-                            printf("Failed to add Item to the Inventory\n");
-                        }
-                        break;
+                        case Inventory_AddItem:
+                            success = addItemToInventory(&inventory);
+                            if(success)
+                            {
+                                printf("Items Added succesfully to the Inventory\n");
+                            }
+                            else
+                            {
+                                printf("Failed to add Item to the Inventory\n");
+                            }
+                            break;
 
-                    case Inventory_DeleteItem:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID to delete Item\n");
-                        scanf("%d", &ID);
-                        success = deleteItemFromInventory(&inventory, ID);
-                        if(success)
-                        {
-                            printf("Item deleted succesfully from the Inventory\n");
-                        }
-                        else
-                        {
-                            printf("Failed to delete Item from the Inventory\n");
-                        }
-                        }
-                        break;
+                        case Inventory_DeleteItem:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID to delete Item\n");
+                                scanf("%d", &ID);
+                                success = deleteItemFromInventory(&inventory, ID);
+                                if(success)
+                                {
+                                    printf("Item deleted succesfully from the Inventory\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to delete Item from the Inventory\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_UpdateItem:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID to update Item details\n");
-                        scanf("%d", &ID);
-                        success = updateItemDetails(&inventory, ID);
-                        if(success)
-                        {
-                            printf("Item updated succesfully to the Inventory\n");
-                        }
-                        else
-                        {
-                            printf("Failed to update Item to the Inventory\n");
-                        }
-                        }
-                        break;
+                        case Inventory_UpdateItem:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID to update Item details\n");
+                                scanf("%d", &ID);
+                                success = updateItemDetails(&inventory, ID);
+                                if(success)
+                                {
+                                    printf("Item updated succesfully to the Inventory\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to update Item to the Inventory\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_DisplaySummary:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        displayInventorySummary(&inventory);
-                        }
-                        break;
+                        case Inventory_DisplaySummary:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                displayInventorySummary(&inventory);
+                            }
+                            break;
 
-                    case Inventory_SortByName:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        success = sortInventorybyName(&inventory);
-                        if(success)
-                        {
-                            printf("Inventory sorted by item name.\n");
-                        }
-                        else
-                        {
-                            printf("Failed to sort Inventory by name\n");
-                        }
-                        }
-                        break;
+                        case Inventory_SortByName:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                success = sortInventorybyName(&inventory);
+                                if(success)
+                                {
+                                    printf("Inventory sorted by item name.\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to sort Inventory by name\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_SortByDepartment:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        success = sortInventorybyDepartment(&inventory);
-                        if(success)
-                        {
-                            printf("Inventory sorted by item Department.\n");
-                        }
-                        else
-                        {
-                            printf("Failed to sort Inventory by Department\n");
-                        }
-                        }
-                        break;
+                        case Inventory_SortByDepartment:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                success = sortInventorybyDepartment(&inventory);
+                                if(success)
+                                {
+                                    printf("Inventory sorted by item Department.\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to sort Inventory by Department\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_SortByPrice:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        success = sortInventorybyPrice(&inventory);
-                        if(success)
-                        {
-                            printf("Inventory sorted by item Price.\n");
-                        }
-                        else
-                        {
-                            printf("Failed to sort inventory by Price.\n");
-                        }
-                        }
-                        break;
+                        case Inventory_SortByPrice:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                success = sortInventorybyPrice(&inventory);
+                                if(success)
+                                {
+                                    printf("Inventory sorted by item Price.\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to sort inventory by Price.\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_SortByItemID:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        success = sortInventorybyItemID(&inventory);
-                        if(success)
-                        {
-                            printf("Inventory sorted by item Price.\n");
-                        }
-                        else
-                        {
-                            printf("Failed to sort inventory by Price.\n");
-                        }
-                        }
-                        break;
+                        case Inventory_SortByItemID:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                success = sortInventorybyItemID(&inventory);
+                                if(success)
+                                {
+                                    printf("Inventory sorted by item Price.\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to sort inventory by Price.\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_GetItemByID:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID of an item\n");
-                        scanf("%d", &ID);
-                        success = getInventoryItemByID(&inventory, ID);
-                        if(success)
-                        {
-                            printf("Got item Successfully\n");
-                        }
-                        else
-                        {
-                            printf("Failed to get item\n");
-                        }
-                        }
-                        break;
+                        case Inventory_GetItemByID:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID of an item\n");
+                                scanf("%d", &ID);
+                                success = getInventoryItemByID(&inventory, ID);
+                                if(success)
+                                {
+                                    printf("Got item Successfully\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to get item\n");
+                                }
+                            }
+                            break;
 
-                    case Inventory_DisplayDeletedItems:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        displayDeletedItems(&inventory);
-                        }
-                        break;
+                        case Inventory_DisplayDeletedItems:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                displayDeletedItems(&inventory);
+                            }
+                            break;
 
-                    case Inventory_Exit:
-                        isTrue = 0;
-                        break;
+                        case Inventory_Exit:
+                            isTrue = 0;
+                            break;
 
-                    default:
-                        printf("Enter valid option\n");
-                    }
+                        default:
+                            printf("Enter valid option\n");
+                        }
                     }
                     break;
 
@@ -297,97 +302,97 @@ int start()
                     isTrue = 1;
                     while(isTrue)
                     {
-                    printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n5.Exit Cart\n");
-                    scanf("%d", &option);
+                        printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n5.Exit Cart\n");
+                        scanf("%d", &option);
 
-                    switch(option)
-                    {
+                        switch(option)
+                        {
 
-                    case Cart_AddItem:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID of Inventory Item to add\n");
-                        scanf("%d", &ID);
-                        printf("Enter Quantity\n");
-                        scanf("%f", &quantity);
-                        success = addItemToCart(&cart, &inventory, ID, quantity);
-                        if(success)
-                        {
-                            printf("Item Added succesfully to the cart\n");
-                        }
-                        else
-                        {
-                            printf("Failed to add Item to the cart\n");
-                        }
-                        }
-                        break;
+                        case Cart_AddItem:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID of Inventory Item to add\n");
+                                scanf("%d", &ID);
+                                printf("Enter Quantity\n");
+                                scanf("%f", &quantity);
+                                success = addItemToCart(&cart, &inventory, ID, quantity);
+                                if(success)
+                                {
+                                    printf("Item Added succesfully to the cart\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to add Item to the cart\n");
+                                }
+                            }
+                            break;
 
-                    case Cart_DeleteItem:
-                        if(cart.head == NULL)
-                        {
-                            printf("Cart is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID to remove item from cart\n");
-                        scanf("%d", &ID);
-                        success = removeItemFromCart(&inventory, &cart, ID);
-                        if(success)
-                        {
-                            printf("Item deleted succesfully from the cart\n");
-                        }
-                        else
-                        {
-                            printf("Failed to delete Item from the cart\n");
-                        }
-                        }
-                        break;
+                        case Cart_DeleteItem:
+                            if(cart.head == NULL)
+                            {
+                                printf("Cart is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID to remove item from cart\n");
+                                scanf("%d", &ID);
+                                success = removeItemFromCart(&inventory, &cart, ID);
+                                if(success)
+                                {
+                                    printf("Item deleted succesfully from the cart\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to delete Item from the cart\n");
+                                }
+                            }
+                            break;
 
-                    case Cart_UpdateQuantity:
-                        if(cart.head == NULL)
-                        {
-                            printf("Cart is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID to update quantity\n");
-                        scanf("%d", &ID);
-                        printf("Enter Quantity\n");
-                        scanf("%f", &quantity);
-                        success = updateCartItemQuantity(&inventory, &cart, ID, quantity);
-                        if(success)
-                        {
-                            printf("Item updated succesfully to the cart\n");
-                        }
-                        else
-                        {
-                            printf("Failed to update Item to the cart\n");
-                        }
-                        }
-                        break;
+                        case Cart_UpdateQuantity:
+                            if(cart.head == NULL)
+                            {
+                                printf("Cart is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID to update quantity\n");
+                                scanf("%d", &ID);
+                                printf("Enter Quantity\n");
+                                scanf("%f", &quantity);
+                                success = updateCartItemQuantity(&inventory, &cart, ID, quantity);
+                                if(success)
+                                {
+                                    printf("Item updated succesfully to the cart\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to update Item to the cart\n");
+                                }
+                            }
+                            break;
 
-                    case Cart_DisplaySummary:
-                        if(cart.head == NULL)
-                        {
-                            printf("Cart is Empty\n");
-                        }
-                        else
-                        {
-                        viewCartSummary(&cart);
-                        }
-                        break;
+                        case Cart_DisplaySummary:
+                            if(cart.head == NULL)
+                            {
+                                printf("Cart is Empty\n");
+                            }
+                            else
+                            {
+                                viewCartSummary(&cart);
+                            }
+                            break;
 
-                    case Cart_Exit:
-                        isTrue = 0;
-                        break;
+                        case Cart_Exit:
+                            isTrue = 0;
+                            break;
 
-                    default:
-                        printf("Enter valid option\n");
-                    }
+                        default:
+                            printf("Enter valid option\n");
+                        }
                     }
                     break;
 
@@ -402,30 +407,30 @@ int start()
                         isTrue = 1;
                         while(isTrue)
                         {
-                        printf("Enter\n1.Provide Discount\n2.Generate Receipt\n3.Exit Billing\n");
-                        scanf("%d", &option);
+                            printf("Enter\n1.Provide Discount\n2.Generate Receipt\n3.Exit Billing\n");
+                            scanf("%d", &option);
 
-                        switch(option)
-                        {
-                            float DiscountAmount = 0;
+                            switch(option)
+                            {
+                                float DiscountAmount = 0;
 
-                        case Calculate_FinalBill:
-                            DiscountAmount = calculateFinalBill(&cart, &inventory, &totalsales);
-                            break;
+                            case Calculate_FinalBill:
+                                DiscountAmount = calculateFinalBill(&cart, &inventory, &totalsales);
+                                break;
 
-                        case Billing_GenerateReceipt:
-                            generateReceipt(&cart, &inventory,DiscountAmount,&report);
-                            generateSalesReport(&cart, &inventory,&report, 0);
-                            cart.head = 0;
-                            break;
+                            case Billing_GenerateReceipt:
+                                generateReceipt(&cart, &inventory,DiscountAmount,&report);
+                                generateSalesReport(&cart, &inventory,&report, 0);
+                                cart.head = 0;
+                                break;
 
-                        case Billing_Exit:
-                            isTrue = 0;
-                            break;
+                            case Billing_Exit:
+                                isTrue = 0;
+                                break;
 
-                        default:
-                            printf("Enter valid option\n");
-                        }
+                            default:
+                                printf("Enter valid option\n");
+                            }
                         }
                         break;
                     }
@@ -436,44 +441,43 @@ int start()
                     isTrue = 1;
                     while(isTrue)
                     {
-                    printf("Enter\n1.Generate Sales Report\n2.Generate Inventory Report\n3.View Low Stock alerts\n4.Exit Report\n");
-                    scanf("%d", &option);
+                        printf("Enter\n1.Generate Sales Report\n2.Generate Inventory Report\n3.View Low Stock alerts\n4.Exit Report\n");
+                        scanf("%d", &option);
 
-                    switch(option)
-                    {
-                    case Generate_SalesReport:
-                        generateSalesReport(&cart, &inventory,&report,1);
-                        cart.head = 0;
-                        break;
-
-                    case Generate_InventoryReport:
-                        generateInventoryReport(&inventory);
-                        break;
-
-                    case ViewLOWStockAlerts:
-                        if(inventory.head == NULL)
+                        switch(option)
                         {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        viewLowStockAlerts(&inventory);
-                        }
-                        break;
+                        case Generate_SalesReport:
+                            generateSalesReport(&cart, &inventory,&report,1);
+                            cart.head = 0;
+                            break;
 
-                    case Report_Exit:
-                        isTrue = 0;
-                        break;
+                        case Generate_InventoryReport:
+                            generateInventoryReport(&inventory);
+                            break;
 
-                    default:
-                        printf("Enter valid option\n");
-                    }
+                        case ViewLOWStockAlerts:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                viewLowStockAlerts(&inventory);
+                            }
+                            break;
+
+                        case Report_Exit:
+                            isTrue = 0;
+                            break;
+
+                        default:
+                            printf("Enter valid option\n");
+                        }
                     }
                     break;
 
                 case  ADMIN_LOGOUT:
 
-                    closeUserFile();
                     currentUser->isLoggedIn = 0;
                     currentUser = NULL;
                     printf("Admin Logging out....\n\n\n");
@@ -504,97 +508,97 @@ int start()
                     isTrue = 1;
                     while(isTrue)
                     {
-                    printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n5.Exit Cart\n");
-                    scanf("%d", &option);
+                        printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n5.Exit Cart\n");
+                        scanf("%d", &option);
 
-                    switch(option)
-                    {
+                        switch(option)
+                        {
 
-                    case Cart_AddItem:
-                        if(inventory.head == NULL)
-                        {
-                            printf("Inventory is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID of Inventory Item to add\n");
-                        scanf("%d", &ID);
-                        printf("Enter Quantity\n");
-                        scanf("%f", &quantity);
-                        success = addItemToCart(&cart, &inventory, ID, quantity);
-                        if(success)
-                        {
-                            printf("Item Added succesfully to the cart\n");
-                        }
-                        else
-                        {
-                            printf("Failed to add Item to the cart\n");
-                        }
-                        }
-                        break;
+                        case Cart_AddItem:
+                            if(inventory.head == NULL)
+                            {
+                                printf("Inventory is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID of Inventory Item to add\n");
+                                scanf("%d", &ID);
+                                printf("Enter Quantity\n");
+                                scanf("%f", &quantity);
+                                success = addItemToCart(&cart, &inventory, ID, quantity);
+                                if(success)
+                                {
+                                    printf("Item Added succesfully to the cart\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to add Item to the cart\n");
+                                }
+                            }
+                            break;
 
-                    case Cart_DeleteItem:
-                        if(cart.head == NULL)
-                        {
-                            printf("Cart is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID to remove item from cart\n");
-                        scanf("%d", &ID);
-                        success = removeItemFromCart(&inventory, &cart, ID);
-                        if(success)
-                        {
-                            printf("Item deleted succesfully from the cart\n");
-                        }
-                        else
-                        {
-                            printf("Failed to delete Item from the cart\n");
-                        }
-                        }
-                        break;
+                        case Cart_DeleteItem:
+                            if(cart.head == NULL)
+                            {
+                                printf("Cart is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID to remove item from cart\n");
+                                scanf("%d", &ID);
+                                success = removeItemFromCart(&inventory, &cart, ID);
+                                if(success)
+                                {
+                                    printf("Item deleted succesfully from the cart\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to delete Item from the cart\n");
+                                }
+                            }
+                            break;
 
-                    case Cart_UpdateQuantity:
-                        if(cart.head == NULL)
-                        {
-                            printf("Cart is Empty\n");
-                        }
-                        else
-                        {
-                        printf("Enter ID to update quantity\n");
-                        scanf("%d", &ID);
-                        printf("Enter Quantity\n");
-                        scanf("%f", &quantity);
-                        success = updateCartItemQuantity(&inventory, &cart, ID, quantity);
-                        if(success)
-                        {
-                            printf("Item updated succesfully to the cart\n");
-                        }
-                        else
-                        {
-                            printf("Failed to update Item to the cart\n");
-                        }
-                        }
-                        break;
+                        case Cart_UpdateQuantity:
+                            if(cart.head == NULL)
+                            {
+                                printf("Cart is Empty\n");
+                            }
+                            else
+                            {
+                                printf("Enter ID to update quantity\n");
+                                scanf("%d", &ID);
+                                printf("Enter Quantity\n");
+                                scanf("%f", &quantity);
+                                success = updateCartItemQuantity(&inventory, &cart, ID, quantity);
+                                if(success)
+                                {
+                                    printf("Item updated succesfully to the cart\n");
+                                }
+                                else
+                                {
+                                    printf("Failed to update Item to the cart\n");
+                                }
+                            }
+                            break;
 
-                    case Cart_DisplaySummary:
-                        if(cart.head == NULL)
-                        {
-                            printf("Cart is Empty\n");
-                        }
-                        else
-                        {
-                        viewCartSummary(&cart);
-                        }
-                        break;
+                        case Cart_DisplaySummary:
+                            if(cart.head == NULL)
+                            {
+                                printf("Cart is Empty\n");
+                            }
+                            else
+                            {
+                                viewCartSummary(&cart);
+                            }
+                            break;
 
-                    case Cart_Exit:
-                        isTrue = 0;
-                        break;
+                        case Cart_Exit:
+                            isTrue = 0;
+                            break;
 
-                    default:
-                        printf("Enter valid option\n");
-                    }
+                        default:
+                            printf("Enter valid option\n");
+                        }
                     }
                     break;
 
@@ -609,30 +613,30 @@ int start()
                         isTrue = 1;
                         while(isTrue)
                         {
-                        printf("Enter\n1.Provide Discount\n2.Generate Receipt\n3.Exit Billing\n");
-                        scanf("%d", &option);
+                            printf("Enter\n1.Provide Discount\n2.Generate Receipt\n3.Exit Billing\n");
+                            scanf("%d", &option);
 
-                        switch(option)
-                        {
-                            float DiscountAmount = 0;
+                            switch(option)
+                            {
+                                float DiscountAmount = 0;
 
-                        case Calculate_FinalBill:
-                            DiscountAmount = calculateFinalBill(&cart, &inventory, &totalsales);
-                            break;
+                            case Calculate_FinalBill:
+                                DiscountAmount = calculateFinalBill(&cart, &inventory, &totalsales);
+                                break;
 
-                        case Billing_GenerateReceipt:
-                            generateReceipt(&cart, &inventory,DiscountAmount,&report);
-                            generateSalesReport(&cart, &inventory,&report, 0);
-                            cart.head = 0;
-                            break;
+                            case Billing_GenerateReceipt:
+                                generateReceipt(&cart, &inventory,DiscountAmount,&report);
+                                generateSalesReport(&cart, &inventory,&report, 0);
+                                cart.head = 0;
+                                break;
 
-                        case Billing_Exit:
-                            isTrue = 0;
-                            break;
+                            case Billing_Exit:
+                                isTrue = 0;
+                                break;
 
-                        default:
-                            printf("Enter valid option\n");
-                        }
+                            default:
+                                printf("Enter valid option\n");
+                            }
                         }
                         break;
                     }
@@ -658,6 +662,7 @@ int start()
         }
     }
     saveUsersToFile(&userlist);
+    closeUserFile();
     closeSalesReportFile();
     closeInventoryFile();
 
