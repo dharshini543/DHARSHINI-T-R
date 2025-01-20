@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include<string.h>
+#include <stdbool.h>
 #include "user.h"
 #include "inventory.h"
 #include "cart.h"
@@ -81,24 +83,85 @@ int main_menu()
                 {
                 case  ADMIN_ADD_USER:
 
-                    printf("Enter username: ");
+                    isTrue = 1;
                     char newUsername[MAX_USERNAME_LENGTH];
-                    scanf("%s", newUsername);
-                    printf("Enter password: ");
+                    char username[MAX_USERNAME_LENGTH];
                     char newPassword[MAX_PASSWORD_LENGTH];
-                    scanf("%s", newPassword);
-                    printf("Enter role (1. Admin, 2. User): ");
+                    char password[MAX_PASSWORD_LENGTH];
                     int roleChoice;
-                    scanf("%d", &roleChoice);
+                    int role;
+                    while(true)
+                    {
+
+                        printf("Enter username: ");
+                        if(scanf("%s", username) == 1 && strlen(username) < MAX_USERNAME_LENGTH)
+                        {
+                            strcpy(newUsername , username);
+                            for(int i = 0; i< userlist.userCount; i++)
+                            {
+                                if(strcmp(userlist.users[i].username,newUsername)== 0)
+                                {
+                                    printf("User with Username already exists\n");
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            printf("Invalid Username,Enter valid Username\n");
+                        }
+                    }
+                    while(true)
+                    {
+                        printf("Enter Password: \n");
+                        if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+                        {
+                            strcpy(newPassword , password);
+                            break;
+                        }
+                        else
+                        {
+                            printf("Invalid Password,Enter valid Password\n");
+                        }
+                    }
+                    while(true)
+                    {
+                        printf("Enter role (1. Admin, 2. User): ");
+                        scanf("%d", &role);
+
+                        if(role == 1 || role == 2)
+                        {
+                            roleChoice = role;
+                            break;
+                        }
+                        else
+                        {
+                            printf("Invalid Role,Enter 1 or 2\n");
+                        }
+                    }
+
 
                     addUser(&userlist, newUsername, newPassword, (roleChoice == 1) ? ROLE_ADMIN : ROLE_USER);
                     break;
 
                 case  ADMIN_DELETE_USER:
 
-                    printf("Enter username to delete: ");
                     char deleteUsername[MAX_USERNAME_LENGTH];
-                    scanf("%s", deleteUsername);
+                    char userID[MAX_USERNAME_LENGTH];
+                    while(true)
+                    {
+                        printf("Enter username to delete: ");
+                        if(scanf("%s", userID) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+                        {
+                            strcpy(deleteUsername , userID);
+                            break;
+                        }
+                        else
+                        {
+                            printf("Invalid Username,Enter valid username\n");
+                        }
+                    }
                     deleteUser(&userlist, deleteUsername);
                     break;
 
@@ -110,7 +173,18 @@ int main_menu()
                     isTrue = 1;
                     while(isTrue)
                     {
-                        printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price\n8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n11.Exit Inventory\n");
+                        printf("Enter\n"
+                               "1.Add Item to Inventory\n"
+                               "2.Delete Item from Inventory\n"
+                               "3.Update Inventory Item Details\n"
+                               "4.Display Inventory summary\n"
+                               "5.Sort Inventory By Name\n"
+                               "6.Sort Inventory By Department\n"
+                               "7.Sort Inventory By Price\n"
+                               "8.Sort Inventory By ID\n"
+                               "9.Get list by ID\n"
+                               "10.Display Deleted Items\n"
+                               "11.Exit Inventory\n");
                         scanf("%d", &option);
 
                         switch(option)
@@ -302,7 +376,12 @@ int main_menu()
                     isTrue = 1;
                     while(isTrue)
                     {
-                        printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n5.Exit Cart\n");
+                        printf("Enter\n"
+                               "1.Add Item to Cart\n"
+                               "2.Delete Item from Cart\n"
+                               "3.Update Cart item quantity\n"
+                               "4.Display Cart Summary\n"
+                               "5.Exit Cart\n");
                         scanf("%d", &option);
 
                         switch(option)
@@ -407,7 +486,10 @@ int main_menu()
                         isTrue = 1;
                         while(isTrue)
                         {
-                            printf("Enter\n1.Provide Discount\n2.Generate Receipt\n3.Exit Billing\n");
+                            printf("Enter\n"
+                                   "1.Provide Discount\n"
+                                   "2.Generate Receipt\n"
+                                   "3.Exit Billing\n");
                             scanf("%d", &option);
 
                             switch(option)
@@ -441,7 +523,11 @@ int main_menu()
                     isTrue = 1;
                     while(isTrue)
                     {
-                        printf("Enter\n1.Generate Sales Report\n2.Generate Inventory Report\n3.View Low Stock alerts\n4.Exit Report\n");
+                        printf("Enter\n"
+                               "1.Generate Sales Report\n"
+                               "2.Generate Inventory Report\n"
+                               "3.View Low Stock alerts\n"
+                               "4.Exit Report\n");
                         scanf("%d", &option);
 
                         switch(option)
@@ -508,7 +594,12 @@ int main_menu()
                     isTrue = 1;
                     while(isTrue)
                     {
-                        printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n5.Exit Cart\n");
+                        printf("Enter\n"
+                               "1.Add Item to Cart\n"
+                               "2.Delete Item from Cart\n"
+                               "3.Update Cart item quantity\n"
+                               "4.Display Cart Summary\n"
+                               "5.Exit Cart\n");
                         scanf("%d", &option);
 
                         switch(option)

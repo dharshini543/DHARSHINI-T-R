@@ -1,8 +1,8 @@
 #ifndef USER_H
 #define USER_H
 
-#define MAX_USERNAME_LENGTH 30
-#define MAX_PASSWORD_LENGTH 30
+#define MAX_USERNAME_LENGTH 15
+#define MAX_PASSWORD_LENGTH 15
 #define MAX_USERS 100
 
 typedef enum

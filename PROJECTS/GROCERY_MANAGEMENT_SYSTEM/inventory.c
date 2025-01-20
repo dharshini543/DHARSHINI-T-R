@@ -4,6 +4,57 @@
 #include "inventory.h"
 #include "enum.h"
 #include "inventory_FO.h"
+#include <ctype.h>
+#include <stdbool.h>
+
+
+int isDigits(const char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        if (!isdigit(str[i]))
+            return 0;
+    }
+    return 1;
+}
+
+int validateDate(const char *date)
+{
+    if (strlen(date) != 10)
+        return 0;
+
+    if (date[4] != '-' || date[7] != '-')
+        return 0;
+
+    char year[5], month[3], day[3];
+    strncpy(year, date, 4);
+    year[4] = '\0';
+    strncpy(month, date + 5, 2);
+    month[2] = '\0';
+    strncpy(day, date + 8, 2);
+    day[2] = '\0';
+
+    if (!isDigits(year) || !isDigits(month) || !isDigits(day))
+        return 0;
+
+    int y = atoi(year), m = atoi(month), d = atoi(day);
+
+    if (m < 1 || m > 12 || d < 1 || d > 31)
+        return 0;
+
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if (m == 2)
+    {
+        int isLeap = (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0));
+        if (d > (isLeap ? 29 : 28))
+            return 0;
+    }
+    else if (d > daysInMonth[m - 1])
+        return 0;
+
+    return 1;
+}
+
 
 int addItemToInventory(Inventory *inventory)
 {
@@ -21,18 +72,76 @@ int addItemToInventory(Inventory *inventory)
         else
         {
             newitem->itemID = inventory->itemCount+1;
-            printf("Item name:");
+            /*printf("Item name:");
             scanf(" %[^\n]", newitem->name);
             printf("Item Brand:");
             scanf(" %[^\n]",newitem->brand);
             printf("Item Department:");
-            scanf(" %[^\n]",newitem->department);
-            printf("Item ExpiryDate:");
-            scanf("%s",newitem->expiryDate);
-            printf("Item price:");
-            scanf("%f",&newitem->price);
-            printf("Item Quantity:");
-            scanf("%f", &newitem->quantity);
+            scanf(" %[^\n]",newitem->department);*/
+
+            printf("Item name: ");
+            while (1)
+            {
+                scanf(" %[^\n]", newitem->name);
+                if (strlen(newitem->name) > 0 && strlen(newitem->name) < 50)
+                    break;
+                printf("Invalid name. Please enter a non-empty name (max 50 characters): ");
+            }
+
+            printf("Item Brand: ");
+            while (1)
+            {
+                scanf(" %[^\n]", newitem->brand);
+                if (strlen(newitem->brand) > 0 && strlen(newitem->brand) < 50)
+                    break;
+                printf("Invalid brand. Please enter a non-empty brand (max 50 characters): ");
+            }
+
+            printf("Item Department: ");
+            while (1)
+            {
+                scanf(" %[^\n]", newitem->department);
+                if (strlen(newitem->department) > 0 && strlen(newitem->department) < 50)
+                    break;
+                printf("Invalid department. Please enter a non-empty department (max 50 characters): ");
+            }
+
+            printf("Item Expiry Date (YYYY-MM-DD): ");
+            while (true)
+            {
+                scanf("%s", newitem->expiryDate);
+                if (validateDate(newitem->expiryDate))
+                    break;
+                printf("Invalid date format. Please enter a valid date (YYYY-MM-DD): ");
+            }
+
+            printf("Item price: ");
+            while (true)
+            {
+                if (scanf("%f", &newitem->price) == 1 && newitem->price > 0)
+                {
+                    break;
+                }
+                else
+                {
+                    printf("Invalid price. Please enter a positive number: ");
+                    while (getchar() != '\n');
+                }
+            }
+
+            printf("Item Quantity: ");
+            while (true)
+            {
+                if (scanf("%f", &newitem->quantity) == 1 && newitem->quantity > 0)
+                {
+                    break;
+                }
+                else
+                {
+                    printf("Invalid quantity. Please enter a positive number: ");
+                    while (getchar() != '\n');
+                }
+            }
 
             newitem->next = 0;
 
@@ -146,37 +255,81 @@ int updateItemDetails(Inventory *inventory, int itemID)
             {
             case Name:
                 printf("Item name: ");
-                scanf(" %[^\n]", newName);
+                while (1)
+                {
+                    scanf(" %[^\n]", newName);
+                    if (strlen(newName) > 0 && strlen(newName) < 50)
+                        break;
+                    printf("Invalid name. Please enter a non-empty name (max 50 characters): ");
+                }
                 strcpy(temp->name,newName);
                 updateInventoryItemField(inventory, itemID, Name, newName, temp);
                 break;
             case Brand:
                 printf("Item Brand: ");
-                scanf(" %[^\n]", newBrand);
+                while (1)
+                {
+                    scanf(" %[^\n]", newBrand);
+                    if (strlen(newBrand) > 0 && strlen(newBrand) < 50)
+                        break;
+                    printf("Invalid brand. Please enter a non-empty brand (max 50 characters): ");
+                }
                 strcpy(temp->brand,newBrand);
                 updateInventoryItemField(inventory, itemID, Brand, newBrand, temp);
                 break;
             case Department:
                 printf("Item Department: ");
-                scanf(" %[^\n]", newDepartment);
+                while (1)
+                {
+                    scanf(" %[^\n]", newDepartment);
+                    if (strlen(newDepartment) > 0 && strlen(newDepartment) < 50)
+                        break;
+                    printf("Invalid department. Please enter a non-empty department (max 50 characters): ");
+                }
                 strcpy(temp->department,newDepartment);
                 updateInventoryItemField(inventory, itemID, Department, newDepartment, temp);
                 break;
             case ExpiryDate:
-                printf("Item Expiry Date: ");
-                scanf(" %[^\n]", newExpiryDate);
+                printf("Item Expiry Date (YYYY-MM-DD): ");
+                while (1)
+                {
+                    scanf("%s", newExpiryDate);
+                    if (validateDate(newExpiryDate))
+                        break;
+                    printf("Invalid date format. Please enter a valid date (YYYY-MM-DD): ");
+                }
+
                 strcpy(temp->expiryDate,newExpiryDate);
                 updateInventoryItemField(inventory, itemID, ExpiryDate, newExpiryDate, temp);
                 break;
             case Price:
-                printf("Item Price: ");
-                scanf("%f", &newPrice);
+                printf("Item price: ");
+                while (1)
+                {
+                    if (scanf("%f", &newPrice) == 1 && newPrice > 0)
+                        break;
+                    else
+                    {
+                        printf("Invalid price. Please enter a positive number: ");
+                        while (getchar() != '\n');
+                    }
+                }
                 temp->price = newPrice;
                 updateInventoryItemField(inventory, itemID, Price, &newPrice, temp);
                 break;
             case Quantity:
                 printf("Item Quantity: ");
-                scanf("%f", &newQuantity);
+                while (1)
+                {
+                    if (scanf("%f", &newQuantity) == 1 && newQuantity > 0)
+                        break;
+                    else
+                    {
+                        printf("Invalid quantity. Please enter a positive number: ");
+                        while (getchar() != '\n');
+                    }
+                }
+
                 temp->quantity = newQuantity;
                 updateInventoryItemField(inventory, itemID, Quantity, &newQuantity, temp);
                 break;

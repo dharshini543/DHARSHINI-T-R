@@ -87,5 +87,4 @@ enum returnValue
     Success
 };
 
-
 #endif // ENUM_H

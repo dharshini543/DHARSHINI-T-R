@@ -109,7 +109,7 @@ void loadInventoryFromFile(Inventory *inventory)
     {
         if (strlen(buffer) < RECORD_SIZE)
         {
-            continue;
+            break;
         }
         else
         {
@@ -117,7 +117,6 @@ void loadInventoryFromFile(Inventory *inventory)
             if (newItem == NULL)
             {
                 printf("Memory allocation failed.\n");
-                exit(1);
             }
             else
             {
@@ -166,9 +165,19 @@ void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem)
     fseek(inventoryFile, 0, SEEK_END);
 
     char buffer[RECORD_SIZE + 1];
-    serializeRecord(&newItem, buffer);
-    fprintf(inventoryFile, "%s\n", buffer);
+    //serializeRecord(&newItem, buffer);
+    snprintf(buffer, RECORD_SIZE + 1,
+             "%-10d%-50s%-50s%-30s%-30s%-10.2f%-10.2f\n",
+             newItem.itemID,
+             newItem.name,
+             newItem.brand,
+             newItem.department,
+             newItem.expiryDate,
+             newItem.price,
+             newItem.quantity);
+    buffer[RECORD_SIZE] = '\0';
 
+    fprintf(inventoryFile, "%s\n", buffer);
     fflush(inventoryFile);
     printf("Item added successfully.\n");
 }

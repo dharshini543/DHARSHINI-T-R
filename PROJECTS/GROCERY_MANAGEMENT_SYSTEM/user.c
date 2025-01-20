@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "user.h"
 #include "enum.h"
 
@@ -55,10 +56,34 @@ User* loginUser(Userlist *userlist)
     char password[MAX_PASSWORD_LENGTH];
 
     printf("\t ------- LOGIN -------\n");
-    printf("\t Enter username: ");
-    scanf("%s", username);
-    printf("\t Enter password: ");
-    scanf("%s", password);
+    while(true)
+    {
+
+        printf("Enter username: ");
+        if(scanf("%s", username) == 1 && strlen(username) < MAX_USERNAME_LENGTH)
+        {
+            strcpy(username,username);
+            break;
+        }
+        else
+        {
+            printf("Invalid Username,Enter valid Username\n");
+        }
+    }
+    while(true)
+    {
+
+        printf("Enter Password: ");
+        if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+        {
+            strcpy(password, password);
+            break;
+        }
+        else
+        {
+            printf("Invalid Password,Enter valid Password\n");
+        }
+    }
 
     for (int i = 0; i < userlist->userCount; i++)
     {
@@ -175,11 +200,38 @@ void addFirstAdminUser(Userlist *userlist)
 {
     if (userlist->userCount == 0)
     {
+        char name[MAX_USERNAME_LENGTH];
+        char password[MAX_PASSWORD_LENGTH];
         printf("Please create the first admin user:\n");
-        printf("\t Enter username: ");
-        scanf(" %29s", userlist->users[0].username);
-        printf("\t Enter password: ");
-        scanf(" %29s", userlist->users[0].password);
+        while(true)
+        {
+
+            printf("Enter username: ");
+            if(scanf("%s", name) == 1 && strlen(name) < MAX_USERNAME_LENGTH)
+            {
+                strcpy(userlist->users[0].username , name);
+                break;
+            }
+            else
+            {
+                printf("Invalid Username,Enter valid Username\n");
+            }
+        }
+        while(true)
+        {
+
+            printf("Enter Password: ");
+            if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+            {
+                strcpy(userlist->users[0].password , password);
+                break;
+            }
+            else
+            {
+                printf("Invalid Password,Enter valid Password\n");
+            }
+        }
+
         userlist->users[0].isLoggedIn = 0;
         userlist->users[0].role = ROLE_ADMIN;
         userlist->userCount = 1;
