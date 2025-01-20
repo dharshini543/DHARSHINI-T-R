@@ -111,39 +111,43 @@ void loadInventoryFromFile(Inventory *inventory)
         {
             continue;
         }
-
-        InventoryItem *newItem = (InventoryItem *)malloc(sizeof(InventoryItem));
-        if (newItem == NULL)
-        {
-            printf("Memory allocation failed.\n");
-            exit(1);
-        }
-
-        deserializeRecord(buffer, newItem);
-
-        if (newItem->itemID < 0)
-        {
-            deletedItemCount++;
-        }
-
-        newItem->next = NULL;
-
-        if (inventory->head == NULL)
-        {
-            inventory->head = newItem;
-        }
         else
         {
-            InventoryItem *temp = inventory->head;
-            while (temp->next != NULL)
+            InventoryItem *newItem = (InventoryItem *)malloc(sizeof(InventoryItem));
+            if (newItem == NULL)
             {
-                temp = temp->next;
+                printf("Memory allocation failed.\n");
+                exit(1);
             }
-            temp->next = newItem;
-        }
+            else
+            {
+                deserializeRecord(buffer, newItem);
 
-        inventory->itemCount++;
-        inventory->head = mergeSort(inventory->head, Sort_By_Name);
+                if (newItem->itemID < 0)
+                {
+                    deletedItemCount++;
+                }
+
+                newItem->next = NULL;
+
+                if (inventory->head == NULL)
+                {
+                    inventory->head = newItem;
+                }
+                else
+                {
+                    InventoryItem *temp = inventory->head;
+                    while (temp->next != NULL)
+                    {
+                        temp = temp->next;
+                    }
+                    temp->next = newItem;
+                }
+
+                inventory->itemCount++;
+                inventory->head = mergeSort(inventory->head, Sort_By_Name);
+            }
+        }
     }
 
     if (inventory->itemCount > 0)

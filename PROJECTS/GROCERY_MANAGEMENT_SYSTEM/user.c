@@ -149,25 +149,26 @@ void loadUsersFromFile(Userlist *userlist)
     if (file == NULL)
     {
         perror("Error opening file");
-        return;
     }
-
-    userlist->userCount = 0;
-
-    while (fscanf(file, " %29s %29s  %d",
-                  userlist->users[userlist->userCount].username,
-                  userlist->users[userlist->userCount].password,
-                  (int *)&userlist->users[userlist->userCount].role) == 3)
+    else
     {
-        userlist->userCount++;
-        if (userlist->userCount >= MAX_USERS)
-        {
-            fprintf(stderr, "Maximum user limit reached, some users may not be loaded.\n");
-            break;
-        }
-    }
+        userlist->userCount = 0;
 
-    fclose(file);
+        while (fscanf(file, " %29s %29s  %d",
+                      userlist->users[userlist->userCount].username,
+                      userlist->users[userlist->userCount].password,
+                      (int *)&userlist->users[userlist->userCount].role) == 3)
+        {
+            userlist->userCount++;
+            if (userlist->userCount >= MAX_USERS)
+            {
+                fprintf(stderr, "Maximum user limit reached, some users may not be loaded.\n");
+                break;
+            }
+        }
+
+        fclose(file);
+    }
 }
 
 void addFirstAdminUser(Userlist *userlist)

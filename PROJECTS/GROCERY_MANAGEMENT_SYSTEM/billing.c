@@ -17,7 +17,7 @@ int calculateFinalBill(Cart *cart, Inventory *inventory, float * totalsales)
     if(current == 0)
     {
         printf("Cart is Empty\n");
-        return 0;
+        return Failure;
     }
     else
     {

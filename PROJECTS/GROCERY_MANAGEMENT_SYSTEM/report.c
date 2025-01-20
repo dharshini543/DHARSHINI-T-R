@@ -30,24 +30,26 @@ void addSalesReportItem(Cart *cart, Inventory *inventory, Report *report)
                 if (newitem == 0)
                 {
                     printf("Memory allocation failed.\n");
-                    return;
-                }
-                newitem->itemID = Item->itemID;
-                newitem->quantity = current->quantity;
-                newitem->next = 0;
-                if(report->head == 0)
-                {
-                    report->head = newitem;
-                    temp1 = newitem;
                 }
                 else
                 {
-                    while(temp1->next != 0)
+                    newitem->itemID = Item->itemID;
+                    newitem->quantity = current->quantity;
+                    newitem->next = 0;
+                    if(report->head == 0)
                     {
-                        temp1 = temp1->next;
+                        report->head = newitem;
+                        temp1 = newitem;
                     }
-                    temp1->next = newitem;
-                    temp1 = newitem;
+                    else
+                    {
+                        while(temp1->next != 0)
+                        {
+                            temp1 = temp1->next;
+                        }
+                        temp1->next = newitem;
+                        temp1 = newitem;
+                    }
                 }
 
             }
@@ -100,30 +102,33 @@ void generateSalesReport(Cart *cart, Inventory *inventory, Report *report, int i
         printf("Item_No\tItemID\tName\t\tPrice\t\tQuantity\tAmount\n");
         printf("---------------------------------------------------------------------\n");
     }
-    while(temp1 != 0)
+    else
     {
-        InventoryItem *temp = inventory->head;
-        while(temp != NULL && temp->itemID != temp1->itemID)
+        while(temp1 != 0)
         {
-            temp = temp->next;
-        }
-        InventoryItem *Item = temp;
-        if(Item != NULL)
-        {
-            if(isPrint)
+            InventoryItem *temp = inventory->head;
+            while(temp != NULL && temp->itemID != temp1->itemID)
             {
-                printf("%d\t%d\t%s\t\t%.2f\t\t%.2f\t\t%.2f\n",++count, Item->itemID,
-                       Item->name, Item->price, temp1->quantity, Item->price * temp1->quantity);
+                temp = temp->next;
             }
-            Totalsales = Totalsales + (Item->price * temp1->quantity);
-            updateSalesReportInFile(report, Item->itemID, temp1->quantity, Item->name, Item->price);
+            InventoryItem *Item = temp;
+            if(Item != NULL)
+            {
+                if(isPrint)
+                {
+                    printf("%d\t%d\t%s\t\t%.2f\t\t%.2f\t\t%.2f\n",++count, Item->itemID,
+                           Item->name, Item->price, temp1->quantity, Item->price * temp1->quantity);
+                }
+                Totalsales = Totalsales + (Item->price * temp1->quantity);
+                updateSalesReportInFile(report, Item->itemID, temp1->quantity, Item->name, Item->price);
+            }
+            temp1 = temp1->next;
         }
-        temp1 = temp1->next;
-    }
-    if(isPrint)
-    {
-        printf("---------------------------------------------------------------------\n");
-        printf("\t\t\t\t\t\tTotal Sales = %.2f\n",Totalsales);
+        if(isPrint)
+        {
+            printf("---------------------------------------------------------------------\n");
+            printf("\t\t\t\t\t\tTotal Sales = %.2f\n",Totalsales);
+        }
     }
 
 }

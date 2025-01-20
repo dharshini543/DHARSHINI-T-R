@@ -108,6 +108,7 @@ int deleteItemFromInventory(Inventory *inventory, int itemID)
     }
 }
 
+
 int updateItemDetails(Inventory *inventory, int itemID)
 {
     int field;
@@ -124,67 +125,72 @@ int updateItemDetails(Inventory *inventory, int itemID)
         printf("No Item in inventory. Please add.\n");
         return Failure;
     }
-
-    while (temp != NULL && temp->itemID != itemID)
+    else
     {
-        temp = temp->next;
+        while (temp != NULL && temp->itemID != itemID)
+        {
+            temp = temp->next;
+        }
+        if (temp == NULL)
+        {
+            printf("Item not found with the given item Id.\n");
+            return Failure ;
+        }
+        else
+        {
+            printf("Enter new details for the item\n");
+            printf("Enter\n1.Update Name\n2.Update Brand\n3.Update Department\n4.Update Expiry Date\n5.Update Price\n6.Update Quantity\n\n");
+            scanf("%d", &field);
+
+            switch (field)
+            {
+            case Name:
+                printf("Item name: ");
+                scanf(" %[^\n]", newName);
+                strcpy(temp->name,newName);
+                updateInventoryItemField(inventory, itemID, Name, newName, temp);
+                break;
+            case Brand:
+                printf("Item Brand: ");
+                scanf(" %[^\n]", newBrand);
+                strcpy(temp->brand,newBrand);
+                updateInventoryItemField(inventory, itemID, Brand, newBrand, temp);
+                break;
+            case Department:
+                printf("Item Department: ");
+                scanf(" %[^\n]", newDepartment);
+                strcpy(temp->department,newDepartment);
+                updateInventoryItemField(inventory, itemID, Department, newDepartment, temp);
+                break;
+            case ExpiryDate:
+                printf("Item Expiry Date: ");
+                scanf(" %[^\n]", newExpiryDate);
+                strcpy(temp->expiryDate,newExpiryDate);
+                updateInventoryItemField(inventory, itemID, ExpiryDate, newExpiryDate, temp);
+                break;
+            case Price:
+                printf("Item Price: ");
+                scanf("%f", &newPrice);
+                temp->price = newPrice;
+                updateInventoryItemField(inventory, itemID, Price, &newPrice, temp);
+                break;
+            case Quantity:
+                printf("Item Quantity: ");
+                scanf("%f", &newQuantity);
+                temp->quantity = newQuantity;
+                updateInventoryItemField(inventory, itemID, Quantity, &newQuantity, temp);
+                break;
+
+            default:
+                printf("Enter a valid option\n");
+                return Failure;
+            }
+
+            return Success;
+        }
     }
-    if (temp == NULL)
-    {
-        printf("Item not found with the given item Id.\n");
-        return Failure ;
-    }
-
-    printf("Enter new details for the item\n");
-    printf("Enter\n1.Update Name\n2.Update Brand\n3.Update Department\n4.Update Expiry Date\n5.Update Price\n6.Update Quantity\n\n");
-    scanf("%d", &field);
-
-    switch (field)
-    {
-    case Name:
-        printf("Item name: ");
-        scanf(" %[^\n]", newName);
-        strcpy(temp->name,newName);
-        updateInventoryItemField(inventory, itemID, Name, newName, temp);
-        break;
-    case Brand:
-        printf("Item Brand: ");
-        scanf(" %[^\n]", newBrand);
-        strcpy(temp->brand,newBrand);
-        updateInventoryItemField(inventory, itemID, Brand, newBrand, temp);
-        break;
-    case Department:
-        printf("Item Department: ");
-        scanf(" %[^\n]", newDepartment);
-        strcpy(temp->department,newDepartment);
-        updateInventoryItemField(inventory, itemID, Department, newDepartment, temp);
-        break;
-    case ExpiryDate:
-        printf("Item Expiry Date: ");
-        scanf(" %[^\n]", newExpiryDate);
-        strcpy(temp->expiryDate,newExpiryDate);
-        updateInventoryItemField(inventory, itemID, ExpiryDate, newExpiryDate, temp);
-        break;
-    case Price:
-        printf("Item Price: ");
-        scanf("%f", &newPrice);
-        temp->price = newPrice;
-        updateInventoryItemField(inventory, itemID, Price, &newPrice, temp);
-        break;
-    case Quantity:
-        printf("Item Quantity: ");
-        scanf("%f", &newQuantity);
-        temp->quantity = newQuantity;
-        updateInventoryItemField(inventory, itemID, Quantity, &newQuantity, temp);
-        break;
-
-    default:
-        printf("Enter a valid option\n");
-        return Failure;
-    }
-
-    return Success;
 }
+
 
 void displayInventorySummary(const Inventory *inventory)
 {
@@ -218,7 +224,6 @@ void displayInventorySummary(const Inventory *inventory)
 }
 
 
-
 void displayDeletedItems(const Inventory *inventory)
 {
     int deletedItemCount = 0;
@@ -248,6 +253,7 @@ void displayDeletedItems(const Inventory *inventory)
     }
 }
 
+
 int getInventoryItemByID(Inventory*inventory, int itemID)
 {
     InventoryItem *temp = inventory->head;
@@ -256,16 +262,22 @@ int getInventoryItemByID(Inventory*inventory, int itemID)
         printf("No Item in inventory. Please add.\n");
         return Failure ;
     }
-    while(temp != 0 && temp->itemID != itemID)
+    else
     {
-        temp = temp->next;
-    }
-    if(temp == 0)
-    {
-        printf("Item not found with the given item Id.\n");
-        return Failure;
-    }
-    printf("%d\t%s\t\t%s\t\t%.2f\t\t%.2f\t\t%s\t\t%s\n", temp->itemID, temp->name, temp->brand, temp->price, temp->quantity, temp->department, temp->expiryDate);
+        while(temp != 0 && temp->itemID != itemID)
+        {
+            temp = temp->next;
+        }
+        if(temp == 0)
+        {
+            printf("Item not found with the given item Id.\n");
+            return Failure;
+        }
+        else
+        {
+            printf("%d\t%s\t\t%s\t\t%.2f\t\t%.2f\t\t%s\t\t%s\n", temp->itemID, temp->name, temp->brand, temp->price, temp->quantity, temp->department, temp->expiryDate);
 
-    return Success;
+            return Success;
+        }
+    }
 }

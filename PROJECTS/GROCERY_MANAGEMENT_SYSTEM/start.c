@@ -10,7 +10,7 @@
 #include "enum.h"
 #include "sorting.h"
 
-int start()
+int main_menu()
 {
     Userlist userlist = {0};
     Inventory inventory = {0};

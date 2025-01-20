@@ -1,6 +1,6 @@
 #ifndef START_H
 #define START_H
 
-int start();
+int main_menu();
 
 #endif // START_H
