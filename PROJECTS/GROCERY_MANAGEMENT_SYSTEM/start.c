@@ -90,21 +90,15 @@ int main_menu()
                     char password[MAX_PASSWORD_LENGTH];
                     int roleChoice;
                     int role;
+
                     while(true)
                     {
 
                         printf("Enter username: ");
                         if(scanf("%s", username) == 1 && strlen(username) < MAX_USERNAME_LENGTH)
                         {
+
                             strcpy(newUsername , username);
-                            for(int i = 0; i< userlist.userCount; i++)
-                            {
-                                if(strcmp(userlist.users[i].username,newUsername)== 0)
-                                {
-                                    printf("User with Username already exists\n");
-                                    break;
-                                }
-                            }
                             break;
                         }
                         else
@@ -112,9 +106,10 @@ int main_menu()
                             printf("Invalid Username,Enter valid Username\n");
                         }
                     }
+
                     while(true)
                     {
-                        printf("Enter Password: \n");
+                        printf("Enter Password: ");
                         if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
                         {
                             strcpy(newPassword , password);
