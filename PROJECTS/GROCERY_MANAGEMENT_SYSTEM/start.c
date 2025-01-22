@@ -83,36 +83,32 @@ int main_menu()
                 {
                 case  ADMIN_ADD_USER:
 
-                    isTrue = 1;
-                    char newUsername[MAX_USERNAME_LENGTH];
                     char username[MAX_USERNAME_LENGTH];
-                    char newPassword[MAX_PASSWORD_LENGTH];
                     char password[MAX_PASSWORD_LENGTH];
+                    char NewUsername[MAX_USERNAME_LENGTH];
+                    char NewPassword[MAX_PASSWORD_LENGTH];
                     int roleChoice;
                     int role;
 
                     while(true)
                     {
-
                         printf("Enter username: ");
-                        if(scanf("%s", username) == 1 && strlen(username) < MAX_USERNAME_LENGTH)
+                        if(scanf("%s",username ) == 1 && strlen(username) < MAX_USERNAME_LENGTH)
                         {
-
-                            strcpy(newUsername , username);
+                            strcpy(NewUsername,username);
                             break;
                         }
                         else
                         {
-                            printf("Invalid Username,Enter valid Username\n");
+                            printf("Invalid Username,Enter valid username\n");
                         }
                     }
-
                     while(true)
                     {
-                        printf("Enter Password: ");
-                        if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+                        printf("Enter password: ");
+                        if(scanf("%s",password ) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
                         {
-                            strcpy(newPassword , password);
+                            strcpy(NewPassword,password);
                             break;
                         }
                         else
@@ -136,20 +132,18 @@ int main_menu()
                         }
                     }
 
-
-                    addUser(&userlist, newUsername, newPassword, (roleChoice == 1) ? ROLE_ADMIN : ROLE_USER);
+                    addUser(&userlist, NewUsername, NewPassword, (roleChoice == 1) ? ROLE_ADMIN : ROLE_USER);
                     break;
 
                 case  ADMIN_DELETE_USER:
 
                     char deleteUsername[MAX_USERNAME_LENGTH];
-                    char userID[MAX_USERNAME_LENGTH];
+
                     while(true)
                     {
                         printf("Enter username to delete: ");
-                        if(scanf("%s", userID) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+                        if(scanf("%s",deleteUsername ) == 1 && strlen(deleteUsername) < MAX_USERNAME_LENGTH)
                         {
-                            strcpy(deleteUsername , userID);
                             break;
                         }
                         else

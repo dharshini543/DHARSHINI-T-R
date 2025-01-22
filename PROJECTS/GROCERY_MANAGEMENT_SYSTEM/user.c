@@ -59,10 +59,9 @@ User* loginUser(Userlist *userlist)
     while(true)
     {
 
-        printf("Enter username: ");
+        printf("\tEnter username: ");
         if(scanf("%s", username) == 1 && strlen(username) < MAX_USERNAME_LENGTH)
         {
-            strcpy(username,username);
             break;
         }
         else
@@ -73,10 +72,9 @@ User* loginUser(Userlist *userlist)
     while(true)
     {
 
-        printf("Enter Password: ");
+        printf("\tEnter Password: ");
         if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
         {
-            strcpy(password, password);
             break;
         }
         else
@@ -179,7 +177,7 @@ void loadUsersFromFile(Userlist *userlist)
     {
         userlist->userCount = 0;
 
-        while (fscanf(file, " %29s %29s  %d",
+        while (fscanf(file, " %s %s  %d",
                       userlist->users[userlist->userCount].username,
                       userlist->users[userlist->userCount].password,
                       (int *)&userlist->users[userlist->userCount].role) == 3)
@@ -200,16 +198,15 @@ void addFirstAdminUser(Userlist *userlist)
 {
     if (userlist->userCount == 0)
     {
-        char name[MAX_USERNAME_LENGTH];
+        char username[MAX_USERNAME_LENGTH];
         char password[MAX_PASSWORD_LENGTH];
         printf("Please create the first admin user:\n");
         while(true)
         {
 
-            printf("Enter username: ");
-            if(scanf("%s", name) == 1 && strlen(name) < MAX_USERNAME_LENGTH)
+            printf("\tEnter username: ");
+            if(scanf("%s", userlist->users[0].username) == 1 && strlen(userlist->users[0].username) < MAX_USERNAME_LENGTH)
             {
-                strcpy(userlist->users[0].username , name);
                 break;
             }
             else
@@ -220,10 +217,9 @@ void addFirstAdminUser(Userlist *userlist)
         while(true)
         {
 
-            printf("Enter Password: ");
-            if(scanf("%s", password) == 1 && strlen(password) < MAX_USERNAME_LENGTH)
+            printf("\tEnter Password: ");
+            if(scanf("%s", userlist->users[0].password) == 1 && strlen(userlist->users[0].password) < MAX_USERNAME_LENGTH)
             {
-                strcpy(userlist->users[0].password , password);
                 break;
             }
             else

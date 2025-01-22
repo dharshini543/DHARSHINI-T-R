@@ -64,38 +64,6 @@ void padOrTrimString(char *dest, const char *src, size_t length)
 }
 
 
-void serializeRecord(const InventoryItem *item, char *buffer)
-{
-    char temp[RECORD_SIZE + 1];
-
-    snprintf(temp, RECORD_SIZE + 1,
-             "%-10d%-50s%-50s%-30s%-30s%-10.2f%-10.2f\n",
-             item->itemID,
-             item->name,
-             item->brand,
-             item->department,
-             item->expiryDate,
-             item->price,
-             item->quantity);
-
-    strncpy(buffer, temp, RECORD_SIZE);
-    buffer[RECORD_SIZE] = '\0';
-}
-
-
-void deserializeRecord(const char *buffer, InventoryItem *item)
-{
-    sscanf(buffer,
-           "%10d%50s%50s%30s%30s%10f%10f",
-           &item->itemID,
-           item->name,
-           item->brand,
-           item->department,
-           item->expiryDate,
-           &item->price,
-           &item->quantity);
-}
-
 void loadInventoryFromFile(Inventory *inventory)
 {
     char buffer[RECORD_SIZE + 1];
@@ -109,10 +77,8 @@ void loadInventoryFromFile(Inventory *inventory)
     {
         if (strlen(buffer) < RECORD_SIZE)
         {
-            break;
+            continue;
         }
-        else
-        {
             InventoryItem *newItem = (InventoryItem *)malloc(sizeof(InventoryItem));
             if (newItem == NULL)
             {
@@ -120,7 +86,15 @@ void loadInventoryFromFile(Inventory *inventory)
             }
             else
             {
-                deserializeRecord(buffer, newItem);
+                sscanf(buffer,
+                       "%10d%50s%50s%30s%30s%10f%10f",
+                       &newItem->itemID,
+                       newItem->name,
+                       newItem->brand,
+                       newItem->department,
+                       newItem->expiryDate,
+                       &newItem->price,
+                       &newItem->quantity);
 
                 if (newItem->itemID < 0)
                 {
@@ -146,7 +120,6 @@ void loadInventoryFromFile(Inventory *inventory)
                 inventory->itemCount++;
                 inventory->head = mergeSort(inventory->head, Sort_By_Name);
             }
-        }
     }
 
     if (inventory->itemCount > 0)
@@ -165,7 +138,6 @@ void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem)
     fseek(inventoryFile, 0, SEEK_END);
 
     char buffer[RECORD_SIZE + 1];
-    //serializeRecord(&newItem, buffer);
     snprintf(buffer, RECORD_SIZE + 1,
              "%-10d%-50s%-50s%-30s%-30s%-10.2f%-10.2f\n",
              newItem.itemID,
@@ -192,7 +164,15 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
 
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
-        deserializeRecord(buffer, &temp);
+        sscanf(buffer,
+               "%10d%50s%50s%30s%30s%10f%10f",
+               &temp.itemID,
+               temp.name,
+               temp.brand,
+               temp.department,
+               temp.expiryDate,
+               &temp.price,
+               &temp.quantity);
 
         if (temp.itemID == itemID)
         {
@@ -268,7 +248,16 @@ void deleteInventoryItem(Inventory *inventory, int itemID)
 
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
-        deserializeRecord(buffer, &temp);
+        sscanf(buffer,
+               "%10d%50s%50s%30s%30s%10f%10f",
+               &temp.itemID,
+               temp.name,
+               temp.brand,
+               temp.department,
+               temp.expiryDate,
+               &temp.price,
+               &temp.quantity);
+
 
         if (temp.itemID == itemID)
         {

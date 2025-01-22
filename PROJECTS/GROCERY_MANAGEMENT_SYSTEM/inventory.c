@@ -72,15 +72,9 @@ int addItemToInventory(Inventory *inventory)
         else
         {
             newitem->itemID = inventory->itemCount+1;
-            /*printf("Item name:");
-            scanf(" %[^\n]", newitem->name);
-            printf("Item Brand:");
-            scanf(" %[^\n]",newitem->brand);
-            printf("Item Department:");
-            scanf(" %[^\n]",newitem->department);*/
 
             printf("Item name: ");
-            while (1)
+            while (true)
             {
                 scanf(" %[^\n]", newitem->name);
                 if (strlen(newitem->name) > 0 && strlen(newitem->name) < 50)
@@ -89,7 +83,7 @@ int addItemToInventory(Inventory *inventory)
             }
 
             printf("Item Brand: ");
-            while (1)
+            while (true)
             {
                 scanf(" %[^\n]", newitem->brand);
                 if (strlen(newitem->brand) > 0 && strlen(newitem->brand) < 50)
@@ -98,7 +92,7 @@ int addItemToInventory(Inventory *inventory)
             }
 
             printf("Item Department: ");
-            while (1)
+            while (true)
             {
                 scanf(" %[^\n]", newitem->department);
                 if (strlen(newitem->department) > 0 && strlen(newitem->department) < 50)
