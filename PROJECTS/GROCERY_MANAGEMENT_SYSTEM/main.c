@@ -1,0 +1,7 @@
+#include"start.h"
+
+int main()
+{
+    return main_menu();
+}
+
